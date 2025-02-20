@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 mongoose
-  .connect("mongodb+srv://mohiuddinshahrukh:LT24H17F1jfy43k2@etdb.typbe.mongodb.net/")
+  .connect(process.env.CONNECTION_STRING)
   .then(() => {
     console.log("DB connection success");
     app.listen(port, (error) => {
