@@ -2,14 +2,14 @@ import User from "../../models/user.model.js";
 
 const validateUserSignIn = async (req, res, next) => {
   try {
-    if (!req.body.userName && !req.body.userPassword) {
+    if (!req.body.userEmail && !req.body.userPassword) {
       return res.status(400).json({
-        message: "Username and password are required to login",
+        message: "User Email and password are required to login",
       });
     }
-    if (!req.body.userName) {
+    if (!req.body.userEmail) {
       return res.status(400).json({
-        message: "User username is required to login",
+        message: "User Email is required to login",
       });
     }
     if (!req.body.userPassword) {

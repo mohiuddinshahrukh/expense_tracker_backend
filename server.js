@@ -1,10 +1,12 @@
 import express from "express";
 import { config, configDotenv } from "dotenv";
+import cors from "cors";
 // import router from "./src/routes/local_routes";
 import routes from "./src/routes/v1/index.js";
 import mongoose from "mongoose";
 configDotenv();
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 mongoose

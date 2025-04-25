@@ -57,11 +57,11 @@ UserSchema.methods.isValidPassword = async (password) => {
 };
 
 class UserClass {
-  static async getUserByUserName(userName) {
-    return await this.findOne({ userName });
+  static async getUserByUserEmail(userEmail) {
+    return await this.findOne({ userEmail });
   }
-  static async isValidPassword(userName, password) {
-    const user = await this.findOne({ userName });
+  static async isValidPassword(userEmail, password) {
+    const user = await this.findOne({ userEmail });
     return await bcrypt.compare(password, user.userPassword);
   }
 }

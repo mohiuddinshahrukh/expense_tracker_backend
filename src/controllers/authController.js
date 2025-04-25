@@ -9,7 +9,7 @@ export const signup = async (req, res) => {
     if (newUser) {
       return res.status(201).json({ message: "User created", userData: newUser });
     } else {
-      return res.stats(400).json({ message: "User creation failed" });
+      return res.status(400).json({ message: "User creation failed" });
     }
   } catch (error) {
     res.status(500).json({
@@ -21,15 +21,23 @@ export const signup = async (req, res) => {
 
 export const signin = async (req, res) => {
   try {
-    const { userName, userPassword } = req.body;
-    const user = await User.getUserByUserName(userName);
+    const { userEmail, userPassword } = req.body;
+    console.log(req.body);
+    // Check if the user exists
+    const user = await User.getUserByUserEmail(userEmail);
     if (!user) {
-      return res.status(400).json({ message: "User doesn't exist" });
+      return res.status(404).json({
+        message: "User doesn't exist",
+      });
     }
-    const password = await User.isValidPassword(userName, userPassword);
-    if (!password) {
-      return res.status(400).json({ message: "User password is incorrect" });
+
+    // Validate password
+    const isValid = await User.isValidPassword(userEmail, userPassword);
+    if (!isValid) {
+      return res.status(404).json({ message: "User password is incorrect" });
     }
+
+    // Generate token
     const token = generateToken(user);
     if (token) {
       const userTokenPatch = await User.findByIdAndUpdate(user._id, { activeToken: token });
